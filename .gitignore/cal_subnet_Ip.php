@@ -1,5 +1,6 @@
 <?php
 //-------FUNCTION------------------------//
+// Print result find subnet-port
 function PrintSubnet($a){
 	for($i = 0; $i<count($a); $i++){
 		if($a[$i][0]==2)
@@ -20,6 +21,7 @@ function PrintSubnet($a){
 			echo "<br>".$a[$i][3]."/32 thuộc dải ".$a[$i][1]." port ".$a[$i][2];
 	}
 }
+// Print value in array ($type=1. Array(); $type=2. Array(Array()))
 function PrintArr($a,$type){
 	if($type==1)
 		echo "<hr>". implode("<br>", $a);
@@ -31,6 +33,7 @@ function PrintArr($a,$type){
 		}		
 	}
 }
+//Check Ip start with subnet
 function checkIpStartSubnet($ip){
 	$a = explode("@", "1:32;30;29;28;27;26;25;24@2:32@3:32@4:32@5:32;30@6:32@7:32@8:32@9:32;30;29@10:32@11:32@12:32@13:32;30@14:32@15:32@16:32@17:32;30;29;28@18:32@19:32@20:32@21:32;30@22:32@23:32@24:32@25:32;30;29@26:32@27:32@28:32@29:32;30@30:32@31:32@32:32@33:32;30;29;28;27@34:32@35:32@36:32@37:32;30@38:32@39:32@40:32@41:32;30;29@42:32@43:32@44:32@45:32;30@46:32@47:32@48:32@49:32;30;29;28@50:32@51:32@52:32@53:32;30@54:32@55:32@56:32@57:32;30;29@58:32@59:32@60:32@61:32;30@62:32@63:32@64:32@65:32;30;29;28;27;26@66:32@67:32@68:32@69:32;30@70:32@71:32@72:32@73:32;30;29@74:32@75:32@76:32@77:32;30@78:32@79:32@80:32@81:32;30;29;28@82:32@83:32@84:32@85:32;30@86:32@87:32@88:32@89:32;30;29@90:32@91:32@92:32@93:32;30@94:32@95:32@96:32@97:32;30;29;28;27@98:32@99:32@100:32@101:32;30@102:32@103:32@104:32@105:32;30;29@106:32@107:32@108:32@109:32;30@110:32@111:32@112:32@113:32;30;29;28@114:32@115:32@116:32@117:32;30@118:32@119:32@120:32@121:32;30;29@122:32@123:32@124:32@125:32;30@126:32@127:32@128:32@129:32;30;29;28;27;26;25@130:32@131:32@132:32@133:32;30@134:32@135:32@136:32@137:32;30;29@138:32@139:32@140:32@141:32;30@142:32@143:32@144:32@145:32;30;29;28@146:32@147:32@148:32@149:32;30@150:32@151:32@152:32@153:32;30;29@154:32@155:32@156:32@157:32;30@158:32@159:32@160:32@161:32;30;29;28;27@162:32@163:32@164:32@165:32;30@166:32@167:32@168:32@169:32;30;29@170:32@171:32@172:32@173:32;30@174:32@175:32@176:32@177:32;30;29;28@178:32@179:32@180:32@181:32;30@182:32@183:32@184:32@185:32;30;29@186:32@187:32@188:32@189:32;30@190:32@191:32@192:32@193:32;30;29;28;27;26@194:32@195:32@196:32@197:32;30@198:32@199:32@200:32@201:32;30;29@202:32@203:32@204:32@205:32;30@206:32@207:32@208:32@209:32;30;29;28@210:32@211:32@212:32@213:32;30@214:32@215:32@216:32@217:32;30;29@218:32@219:32@220:32@221:32;30@222:32@223:32@224:32@225:32;30;29;28;27@226:32@227:32@228:32@229:32;30@230:32@231:32@232:32@233:32;30;29@234:32@235:32@236:32@237:32;30@238:32@239:32@240:32@241:32;30;29;28@242:32@243:32@244:32@245:32;30@246:32@247:32@248:32@249:32;30;29@250:32@251:32@252:32@253:32;30@254:32");
 	$d = explode(".",$ip);
@@ -43,6 +46,7 @@ function checkIpStartSubnet($ip){
 	}
 	return $c;
 }
+//Implode list IP to list subnet (list = array)
 function implodeArray(&$a){	
 	$t2 = 2;$t0 = 0;$t1 = 1;$i = 0;$j = 0;$s=3;$k = $s;
 	
@@ -142,6 +146,7 @@ function implodeArray(&$a){
 	}
 	$a = $b;
 }
+// sort value in array
 function sortArray(&$a, $type, $k){
 	for($i = 0; $i<count($a)-1; $i++){
 		for($j = $i+1; $j<count($a); $j++){
@@ -160,11 +165,13 @@ function sortArray(&$a, $type, $k){
 		}
 	}
 }
+// sort value in list (by string)
 function sortStr(&$str, $strPart){
 	$a = explode($strPart, $str);
 	sortArray($a, 1, 0);
 	$str = implode($strPart,$a);
 }
+// Get CIDRtoMask
 function v4CIDRtoMask($cidr) {
 	$cidr = $cidr . "/32";
 	$a = explode('/', $cidr);
@@ -172,6 +179,7 @@ function v4CIDRtoMask($cidr) {
     //echo "Range - " . $a[1] . "<br>";
     return array($a[0], long2ip(-1 << (32 - (int)$a[1])));
 }
+// Input Subnet; OUTPUT FirstIP; LastIP in Subnet
 function ipv4Breakout ($cidr, &$ip_address_long, &$ip_first, &$ip_last) {
 	//global $ip_address;
 	//global $ip_nmask;
@@ -205,12 +213,14 @@ function ipv4Breakout ($cidr, &$ip_address_long, &$ip_first, &$ip_last) {
     echo "Last usable - " . $ip_last_short . "<br>";
     echo "Broadcast - " . $ip_broadcast_short . "<br>";*/
 }
+// Get data from file text
 function readTxtFile($filename){
 	$myfile = fopen($filename, "r") or die("Unable to open file!");
 	$data = fread($myfile,filesize($filename));
 	fclose($myfile);
 	return $data;
 }
+// Get list IP-Port from string data (range IP)
 function getRangeIpAndPort($str,$strpart1,$strpart2,$strpart3,$strpart4,&$ip){
 	$IPArr = explode($strpart1, $str);
 	$iIp = -1;
@@ -240,6 +250,7 @@ function getRangeIpAndPort($str,$strpart1,$strpart2,$strpart3,$strpart4,&$ip){
 		}	
 	}
 }
+// Get list IP-Port from string data
 function getIpAndPort($str,$strpart1,$strpart2,$strpart3,$strpart4,&$ip){
 	$IPArr = explode($strpart1, $str);
 	$iIp = -1;
@@ -270,6 +281,7 @@ function getIpAndPort($str,$strpart1,$strpart2,$strpart3,$strpart4,&$ip){
 	}
 	sortArray($ip, 2, 1);
 }
+// Find IP-Port in RangIP-Port
 function ipCheckRangeAndPort ($ipAndPort, $ipRangeAndPort, &$IpRange, &$Port){
 	/*
 	$ipAndPort
